@@ -9,7 +9,7 @@ public:
 	Bird(cocos2d::Layer *layer);
 
 	void Fall();
-	void Fly() { isFalling = false; };
+	void Fly(cocos2d::Touch *touch);
 	void StopFlying(){ isFalling = true; }
 
 
@@ -18,6 +18,11 @@ private:
 	cocos2d::Vec2 origin;
 
 	cocos2d::Sprite *flappyBird;
+
+	float touchLocationX;
+	float touchLocationY;
+	float willLocationX;
+	float willLocationY;
 
 
 	bool isFalling;

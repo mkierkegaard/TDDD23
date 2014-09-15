@@ -89,7 +89,9 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact){
 
 bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 
-	bird->Fly();
+
+
+	bird->Fly(touch);
 	this->scheduleOnce(schedule_selector(GameScene::StopFlying), BIRD_FLY_DURATION);
 
 	return true;
