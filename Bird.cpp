@@ -18,5 +18,17 @@ Bird::Bird(cocos2d::Layer *layer){
 	flappyBody->setCollisionBitmask(BIRD_COLLISION_BITMASK);
 	flappyBody->setContactTestBitmask(true);
 
+	isFalling = true;
+
 }
 
+void Bird::Fall(){
+	if (true == isFalling) {
+		flappyBird->setPositionX(visibleSize.width / 2 + origin.x);
+		flappyBird->setPositionY(flappyBird->getPositionY() - (BIRD_FALLING_SPEED * visibleSize.height));
+	}
+	else{
+		flappyBird->setPositionX(visibleSize.width / 2 + origin.x);
+		flappyBird->setPositionY(flappyBird->getPositionY() + (BIRD_FALLING_SPEED * visibleSize.height));
+	}
+}

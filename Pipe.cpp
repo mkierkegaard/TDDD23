@@ -28,12 +28,14 @@ void Pipe::SpawnPipe(cocos2d::Layer *layer){
 
 	auto topPipePosition = (random*visibleSize.height + (topPipe->getContentSize().height / 2));
 
+
 	topPipeBody->setDynamic(false);
 	buttomPipeBody->setDynamic(false);
 
 	topPipeBody->setCollisionBitmask(OBSTACLE_COLLISION_MASK);
+	topPipeBody->setContactTestBitmask(true);
 	buttomPipeBody->setCollisionBitmask(OBSTACLE_COLLISION_MASK);
-
+	buttomPipeBody->setContactTestBitmask(true);
 	topPipe->setPhysicsBody(topPipeBody);
 	buttomPipe->setPhysicsBody(buttomPipeBody);
 
