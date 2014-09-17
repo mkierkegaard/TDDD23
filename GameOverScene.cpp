@@ -52,7 +52,7 @@ bool GameOverScene::init()
 	this->addChild(menu);
 
 	__String *tempScore = __String::createWithFormat("%i", score);
-	auto currentScore = LabelTTF::create(tempScore->getCString(), "MarkerFelt.ttf", visibleSize.height * SCORE_FONT_SIZE);
+	auto currentScore = Label::create(tempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
 	currentScore->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 4 * 3 + origin.y));
 	
 	this->addChild(currentScore);

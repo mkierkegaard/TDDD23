@@ -67,7 +67,7 @@ bool GameScene::init()
 	scorePoints = 0;
 
 	__String *currTempScore = __String::createWithFormat("%i", scorePoints);
-	scoreLabel = Label::createWithTTF(currTempScore->getCString(), "fonts/Marker Felt.ttf", visibleSize.height * SCORE_FONT_SIZE);
+	scoreLabel = Label::create(currTempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
 	scoreLabel->setColor(Color3B::WHITE);
 	scoreLabel->setPosition(Point(visibleSize.width * 0.9  + origin.x, visibleSize.height * 0.9 + origin.y));
 	this->addChild(scoreLabel, 10000);
