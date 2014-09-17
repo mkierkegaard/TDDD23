@@ -19,11 +19,17 @@ private:
 
 	cocos2d::Sprite *flappyBird;
 
+	int xSpeed;
+	int ySpeed;
+	int xAcceleration;
+	int yAxxeleration;
+
 	float touchLocationX;
 	float touchLocationY;
 	float willLocationX;
 	float willLocationY;
 
+	int callculatePos();
 
 	bool isFalling;
 };

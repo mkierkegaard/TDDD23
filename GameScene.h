@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Pipe.h"
 #include "Bird.h"
+#include "Score.h"
 
 
 class GameScene : public cocos2d::Layer
@@ -23,6 +24,7 @@ private:
 	cocos2d::PhysicsWorld *sceneWorld;
 
 	void SpawnPipe(float dt);
+	void SpawnScore(float dt);
 
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
 
@@ -33,7 +35,13 @@ private:
 
 	Pipe pipe;
 
+	Score score;
+
 	Bird *bird;
+
+	unsigned int scorePoints;
+	cocos2d::Label *scoreLabel;
+
 };
 
 #endif // __GAME_SCENE_H__

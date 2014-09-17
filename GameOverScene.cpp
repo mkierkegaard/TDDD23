@@ -30,6 +30,9 @@ bool GameOverScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	auto backgroundSprite = Sprite::create("HelloWorld.png");
+	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	this->addChild(backgroundSprite);
     
     return true;
 }

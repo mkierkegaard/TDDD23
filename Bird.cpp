@@ -59,3 +59,7 @@ void Bird::Fly(cocos2d::Touch *touch) {
 	
 
 }
+
+int Bird::callculatePos(){
+	return 0;
+}

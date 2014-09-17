@@ -52,7 +52,7 @@ bool GameScene::init()
 	this->addChild(edgeNode);
     
 	this->schedule(schedule_selector(GameScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * visibleSize.width);
-
+	this->schedule(schedule_selector(GameScene::SpawnScore), PIPE_SPAWN_FREQUENCY * visibleSize.width);
 	bird = new Bird(this);
 
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -64,6 +64,14 @@ bool GameScene::init()
 	touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+	scorePoints = 0;
+
+	__String *tempScore = __String::createWithFormat("%i", scorePoints);
+	scoreLabel = Label::createWithTTF(tempScore->getCString(), "fonts/Marker Felt.ttf", visibleSize.height * SCORE_FONT_SIZE);
+	scoreLabel->setColor(Color3B::WHITE);
+	scoreLabel->setPosition(Point(visibleSize.width * 0.9  + origin.x, visibleSize.height * 0.9 + origin.y));
+
+	this->addChild(scoreLabel, 10000);
 
 	this->scheduleUpdate();
     return true;
@@ -74,16 +82,28 @@ void GameScene::SpawnPipe(float dt){
 
 }
 
+void GameScene::SpawnScore(float dt){
+	score.SpawnScore(this);
+
+}
+
 bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact){
 
 	PhysicsBody *a = contact.getShapeA()->getBody();
 	PhysicsBody *b = contact.getShapeB()->getBody();
 
 	if ((BIRD_COLLISION_BITMASK == a->getCollisionBitmask() && OBSTACLE_COLLISION_MASK == b->getCollisionBitmask()) || (BIRD_COLLISION_BITMASK == b->getCollisionBitmask() && OBSTACLE_COLLISION_MASK == a->getCollisionBitmask())){
+		CCLOG("Points scored: %i", scorePoints);
 		auto scene = GameOverScene::createScene();
 		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
-
+		
 		return true;
+	}
+	else if ((BIRD_COLLISION_BITMASK == a->getCollisionBitmask() && SCORE_COLLISION_MASK == b->getCollisionBitmask()) || (BIRD_COLLISION_BITMASK == b->getCollisionBitmask() && SCORE_COLLISION_MASK == a->getCollisionBitmask())){
+
+		scorePoints++;
+		__String *tempScore = __String::createWithFormat("%i", scorePoints);
+		scoreLabel->setString(tempScore->getCString());
 	}
 }
 
