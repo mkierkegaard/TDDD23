@@ -66,11 +66,10 @@ bool GameScene::init()
 
 	scorePoints = 0;
 
-	__String *tempScore = __String::createWithFormat("%i", scorePoints);
-	scoreLabel = Label::createWithTTF(tempScore->getCString(), "fonts/Marker Felt.ttf", visibleSize.height * SCORE_FONT_SIZE);
+	__String *currTempScore = __String::createWithFormat("%i", scorePoints);
+	scoreLabel = Label::createWithTTF(currTempScore->getCString(), "fonts/Marker Felt.ttf", visibleSize.height * SCORE_FONT_SIZE);
 	scoreLabel->setColor(Color3B::WHITE);
 	scoreLabel->setPosition(Point(visibleSize.width * 0.9  + origin.x, visibleSize.height * 0.9 + origin.y));
-
 	this->addChild(scoreLabel, 10000);
 
 	this->scheduleUpdate();
@@ -94,7 +93,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact){
 
 	if ((BIRD_COLLISION_BITMASK == a->getCollisionBitmask() && OBSTACLE_COLLISION_MASK == b->getCollisionBitmask()) || (BIRD_COLLISION_BITMASK == b->getCollisionBitmask() && OBSTACLE_COLLISION_MASK == a->getCollisionBitmask())){
 		CCLOG("Points scored: %i", scorePoints);
-		auto scene = GameOverScene::createScene();
+		auto scene = GameOverScene::createScene(scorePoints);
 		Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 		
 		return true;
