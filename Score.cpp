@@ -22,12 +22,20 @@ void Score::SpawnScore(cocos2d::Layer *layer){
 	scoreBody->setCollisionBitmask(SCORE_COLLISION_MASK);
 	scoreBody->setContactTestBitmask(true);
 
+	
+
 	scoreNode->setPhysicsBody(scoreBody);
 	scoreNode->setPosition(Point(visibleSize.width / 2, -(visibleSize.height + visibleSize.height + origin.x)));
+	
+
 
 	layer->addChild(scoreNode);
 
 	auto scoreNodeAction = MoveBy::create(PIPE_MOVEMENT_SPEED * visibleSize.width, Point(0, visibleSize.height * 3));
 
 	scoreNode->runAction(scoreNodeAction);
+}
+
+void Score::removeScoreObject(){
+
 }

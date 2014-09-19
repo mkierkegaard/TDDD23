@@ -32,6 +32,7 @@ bool GameScene::init()
     {
         return false;
     }
+
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -52,7 +53,6 @@ bool GameScene::init()
 	this->addChild(edgeNode);
     
 	this->schedule(schedule_selector(GameScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * visibleSize.width);
-	this->schedule(schedule_selector(GameScene::SpawnScore), PIPE_SPAWN_FREQUENCY * visibleSize.width);
 	bird = new Bird(this);
 
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -65,7 +65,7 @@ bool GameScene::init()
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	scorePoints = 0;
-
+	this->schedule(schedule_selector(GameScene::addPoint), 1 );
 	__String *currTempScore = __String::createWithFormat("%i", scorePoints);
 	scoreLabel = Label::create(currTempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
 	scoreLabel->setColor(Color3B::WHITE);
@@ -98,12 +98,7 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact){
 		
 		return true;
 	}
-	else if ((BIRD_COLLISION_BITMASK == a->getCollisionBitmask() && SCORE_COLLISION_MASK == b->getCollisionBitmask()) || (BIRD_COLLISION_BITMASK == b->getCollisionBitmask() && SCORE_COLLISION_MASK == a->getCollisionBitmask())){
-
-		scorePoints++;
-		__String *tempScore = __String::createWithFormat("%i", scorePoints);
-		scoreLabel->setString(tempScore->getCString());
-	}
+	
 }
 
 bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
@@ -123,5 +118,11 @@ void GameScene::StopFlying(float dt){
 
 void GameScene::update(float dt){
 	bird->Fall();
+	__String *tempScore = __String::createWithFormat("%i", scorePoints);
+	scoreLabel->setString(tempScore->getCString());
+}
 
+
+void GameScene::addPoint(float dt){
+	scorePoints++;
 }

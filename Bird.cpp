@@ -20,6 +20,7 @@ Bird::Bird(cocos2d::Layer *layer){
 
 	flappyBody->setCollisionBitmask(BIRD_COLLISION_BITMASK);
 	flappyBody->setContactTestBitmask(true);
+	
 
 	isFalling = true;
 

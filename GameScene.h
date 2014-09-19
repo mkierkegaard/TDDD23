@@ -33,6 +33,8 @@ private:
 	void StopFlying(float dt);
 	void update(float dt);
 
+	void addPoint(float dt);
+
 	Pipe pipe;
 
 	Score score;

@@ -37,4 +37,6 @@ void Pipe::SpawnPipe(cocos2d::Layer *layer){
 	auto topPipeAction = MoveBy::create(PIPE_MOVEMENT_SPEED * visibleSize.width, Point(0, visibleSize.height *3));
 
 	topPipe->runAction(topPipeAction);
+
+
 }

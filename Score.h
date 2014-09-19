@@ -11,7 +11,7 @@ public:
       
 	void Score::SpawnScore(cocos2d::Layer *layer);
 
-
+	void Score::removeScoreObject();
 private:
 	cocos2d::Size visibleSize;
 	cocos2d::Vec2 origin;
