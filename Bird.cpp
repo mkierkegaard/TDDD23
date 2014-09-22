@@ -1,5 +1,6 @@
 #include "Bird.h"
 #include "Definitions.h"
+#include "Math.h"
 
 USING_NS_CC;
 
@@ -32,14 +33,30 @@ void Bird::Fall(){
 		flappyBird->setPositionY(flappyBird->getPositionY() - (BIRD_FALLING_SPEED * visibleSize.height));
 	}
 	else{
+		float moveX = abs(touchLocationX - willLocationX);
+		float moveY = abs(touchLocationY - willLocationY);
+
+		float moveForce = sqrt(pow(moveX, 2) + pow(moveY, 2));
+
+		float deltaX = touchLocationX - willLocationX;
+		float deltaY = touchLocationY - willLocationY;
+		float delta = deltaY / deltaX;
+
+		float alpha = atan(delta) * (180 / M_PI);
+
+		float xFactor = cosf(alpha);
+		float yFactor = sinf(alpha);
+
 		if (touchLocationX - willLocationX > 0){
-			flappyBird->setPositionX(flappyBird->getPositionX() - (WIND_POWER * visibleSize.width));
-			flappyBird->setPositionY(flappyBird->getPositionY() + (WIND_POWER * visibleSize.height));
+
+			flappyBird->setPositionX(flappyBird->getPositionX() - (((visibleSize.width * MOVE_POWER / 4) + (MOVE_POWER * moveForce))* abs(xFactor)));
+			flappyBird->setPositionY(flappyBird->getPositionY() + (((visibleSize.height * MOVE_POWER / 2) - (MOVE_POWER * moveForce)) * abs(yFactor)));
 
 		}
 		else{
-			flappyBird->setPositionX(flappyBird->getPositionX() + (WIND_POWER * visibleSize.width));
-			flappyBird->setPositionY(flappyBird->getPositionY() + (WIND_POWER * visibleSize.height));
+
+			flappyBird->setPositionX(flappyBird->getPositionX() + (((visibleSize.width * MOVE_POWER / 4) - (MOVE_POWER * moveForce)) * abs(xFactor)));
+			flappyBird->setPositionY(flappyBird->getPositionY() + (((visibleSize.height * MOVE_POWER / 2) - (MOVE_POWER * moveForce))* abs(yFactor)));
 		}
 		
 	}
