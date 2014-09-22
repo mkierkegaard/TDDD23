@@ -28,19 +28,16 @@ bool GameScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+	if (!LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
     {
         return false;
     }
-
+	this->setColor(ccc3(255, 255, 255));
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto backgroundSprite = Sprite::create("HelloWorld.png");
-	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-	this->addChild(backgroundSprite);
+	
 
 	auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	edgeBody->setCollisionBitmask(OBSTACLE_COLLISION_MASK);
@@ -68,7 +65,7 @@ bool GameScene::init()
 	this->schedule(schedule_selector(GameScene::addPoint), 1 );
 	__String *currTempScore = __String::createWithFormat("%i", scorePoints);
 	scoreLabel = Label::create(currTempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
-	scoreLabel->setColor(Color3B::WHITE);
+	scoreLabel->setColor(Color3B::BLACK);
 	scoreLabel->setPosition(Point(visibleSize.width * 0.9  + origin.x, visibleSize.height * 0.9 + origin.y));
 	this->addChild(scoreLabel, 10000);
 

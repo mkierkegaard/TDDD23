@@ -28,17 +28,17 @@ bool GameOverScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+	if (!LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
     {
         return false;
     }
+
+	this->setColor(ccc3(255, 255, 255));
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto backgroundSprite = Sprite::create("HelloWorld.png");
-	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-	this->addChild(backgroundSprite);
+	
 
 	auto retryItem = MenuItemImage::create("Retry.png","Retry.png" , CC_CALLBACK_1(GameOverScene::GoToGameScene, this));
 	retryItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
@@ -54,6 +54,7 @@ bool GameOverScene::init()
 	__String *tempScore = __String::createWithFormat("%i", score);
 	auto currentScore = Label::create(tempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
 	currentScore->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 4 * 3 + origin.y));
+	currentScore->setColor(Color3B::BLACK);
 	
 	this->addChild(currentScore);
 

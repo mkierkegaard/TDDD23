@@ -24,18 +24,16 @@ bool MainMenuScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+	if (!LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
     {
         return false;
     }
+
+	this->setColor(ccc3(255, 255, 255));
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto backgroundSprite = Sprite::create("HelloWorld.png");
-	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-	this->addChild(backgroundSprite);
 
 	auto titleSprite = Sprite::create("CloseSelected.png");
 	titleSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height - titleSprite->getContentSize().height));

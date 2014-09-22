@@ -24,10 +24,12 @@ bool SplashScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+	if (!LayerColor::initWithColor(Color4B(255, 255, 255, 255)))
     {
         return false;
     }
+
+	this->setColor(ccc3(255, 255, 255));
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
