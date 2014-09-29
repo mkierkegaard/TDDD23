@@ -40,7 +40,7 @@ void Bird::Fall(){
 
 		float deltaX = touchLocationX - willLocationX;
 		float deltaY = touchLocationY - willLocationY;
-		float delta = deltaY / deltaX;
+		float delta = deltaX / deltaY;
 
 		float alpha = atan(delta) * (180 / M_PI);
 
@@ -80,4 +80,9 @@ void Bird::Fly(cocos2d::Touch *touch) {
 
 int Bird::callculatePos(){
 	return 0;
+}
+
+cocos2d::Point Bird::getPosition(){
+
+	return cocos2d::Point(willLocationX, willLocationY);
 }

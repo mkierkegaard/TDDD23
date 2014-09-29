@@ -105,6 +105,26 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 	bird->Fly(touch);
 	this->scheduleOnce(schedule_selector(GameScene::StopFlying), BIRD_FLY_DURATION);
 
+	float xPos = touch->getLocation().x;
+	float yPos = touch->getLocation().y;
+
+	cocos2d::Sprite* wind = Sprite::create("Wind.png");
+
+	Point willPos = bird->getPosition();
+
+	float deltaX = xPos - willPos.x;
+	float deltaY = yPos - willPos.y;
+	float delta = deltaX / deltaY;
+	float alpha = atan(delta) * (180 / M_PI);
+	auto rotation = RotateBy::create(0, alpha);
+
+	wind->runAction(rotation);
+	wind->setPosition(Point(xPos,yPos));
+
+	this->addChild(wind);
+	auto fadeAction = FadeOut::create(2);
+	wind->runAction(fadeAction);
+	//this->removeChild(wind);
 	return true;
 }
 

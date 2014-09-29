@@ -11,6 +11,7 @@ public:
 	void Fall();
 	void Fly(cocos2d::Touch *touch);
 	void StopFlying(){ isFalling = true; }
+	cocos2d::Point getPosition();
 
 
 private: 
@@ -30,6 +31,7 @@ private:
 	float willLocationY;
 
 	int callculatePos();
+
 
 	bool isFalling;
 };
