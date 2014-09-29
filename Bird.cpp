@@ -44,12 +44,16 @@ void Bird::Fall(){
 
 		float alpha = atan(delta) * (180 / M_PI);
 
+		if (deltaY > 0){
+			alpha += 180;
+		}
+
 		float xFactor = cosf(alpha);
 		float yFactor = sinf(alpha);
 
 		if (touchLocationX - willLocationX > 0){
 
-			flappyBird->setPositionX(flappyBird->getPositionX() - (((visibleSize.width * MOVE_POWER / 4) + (MOVE_POWER * moveForce))* abs(xFactor)));
+			flappyBird->setPositionX(flappyBird->getPositionX() - (((visibleSize.width * MOVE_POWER / 4) - (MOVE_POWER * moveForce))* abs(xFactor)));
 			flappyBird->setPositionY(flappyBird->getPositionY() + (((visibleSize.height * MOVE_POWER / 2) - (MOVE_POWER * moveForce)) * abs(yFactor)));
 
 		}

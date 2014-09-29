@@ -112,12 +112,22 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 
 	Point willPos = bird->getPosition();
 
-	float deltaX = xPos - willPos.x;
-	float deltaY = yPos - willPos.y;
+	float deltaX = (xPos - willPos.x);
+	float deltaY = (yPos - willPos.y);
 	float delta = deltaX / deltaY;
+	
 	float alpha = atan(delta) * (180 / M_PI);
-	auto rotation = RotateBy::create(0, alpha);
 
+	if (deltaY > 0){
+		alpha += 180;
+	}
+
+	
+	
+	CCLOG("alpha : %f", alpha);
+		
+		
+	auto rotation = RotateBy::create(0, alpha);
 	wind->runAction(rotation);
 	wind->setPosition(Point(xPos,yPos));
 
