@@ -52,6 +52,10 @@ bool GameScene::init()
 	this->schedule(schedule_selector(GameScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * visibleSize.width);
 	bird = new Bird(this);
 
+	instruction = Sprite::create("Instruction.png");
+	instruction->setPosition(Point(visibleSize.width / 2 + origin.x + 100, visibleSize.height / 2 + origin.y - 120));
+	this->addChild(instruction);
+
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScene::onContactBegin, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);

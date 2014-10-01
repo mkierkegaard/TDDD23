@@ -26,6 +26,8 @@ private:
 	void SpawnPipe(float dt);
 	void SpawnScore(float dt);
 
+	cocos2d::Sprite *instruction;
+
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
 
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
