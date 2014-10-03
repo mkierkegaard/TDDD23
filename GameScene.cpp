@@ -7,7 +7,7 @@ Scene* GameScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(Vect(0, 0));
 
     // 'layer' is an autorelease object
@@ -138,6 +138,10 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 	this->addChild(wind);
 	auto fadeAction = FadeOut::create(2);
 	wind->runAction(fadeAction);
+
+	auto expand = ScaleBy::create(1, 2.5);
+	wind->runAction(expand);
+
 	//this->removeChild(wind);
 	return true;
 }
