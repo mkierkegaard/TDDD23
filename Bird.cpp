@@ -14,56 +14,25 @@ Bird::Bird(cocos2d::Layer *layer){
 	willLocationX = flappyBird->getPositionX();
 	willLocationY = flappyBird->getPositionY();
 
-	auto flappyBody = PhysicsBody::createBox(Size(flappyBird->getContentSize().width, flappyBird->getContentSize().height) );
+	auto flappyBody = PhysicsBody::createBox(Size(flappyBird->getContentSize().width, flappyBird->getContentSize().height) , PhysicsMaterial(0, 1, 0));
 	flappyBird->setPhysicsBody(flappyBody);
 
 	layer -> addChild(flappyBird, 100);
 
 	flappyBody->setCollisionBitmask(BIRD_COLLISION_BITMASK);
 	flappyBody->setContactTestBitmask(true);
-	
+	flappyBody->setMass(1);
 
 	isFalling = true;
+
+	flappyBird->getPhysicsBody()->setVelocityLimit(200);
 
 }
 
 void Bird::Fall(){
-	if (true == isFalling) {
-		flappyBird->setPositionX(flappyBird->getPositionX());
-		flappyBird->setPositionY(flappyBird->getPositionY() - (BIRD_FALLING_SPEED * visibleSize.height));
-	}
-	else{
-		float moveX = abs(touchLocationX - willLocationX);
-		float moveY = abs(touchLocationY - willLocationY);
-
-		float moveForce = sqrt(pow(moveX, 2) + pow(moveY, 2));
-
-		float deltaX = touchLocationX - willLocationX;
-		float deltaY = touchLocationY - willLocationY;
-		float delta = deltaX / deltaY;
-
-		float alpha = atan(delta) * (180 / M_PI);
-
-		if (deltaY > 0){
-			alpha += 180;
-		}
-
-		float xFactor = cosf(alpha);
-		float yFactor = sinf(alpha);
-
-		if (touchLocationX - willLocationX > 0){
-
-			flappyBird->setPositionX(flappyBird->getPositionX() - (((visibleSize.width * MOVE_POWER / 4) - (MOVE_POWER * moveForce))* abs(xFactor)));
-			flappyBird->setPositionY(flappyBird->getPositionY() + (((visibleSize.height * MOVE_POWER / 2) - (MOVE_POWER * moveForce)) * abs(yFactor)));
-
-		}
-		else{
-
-			flappyBird->setPositionX(flappyBird->getPositionX() + (((visibleSize.width * MOVE_POWER / 4) - (MOVE_POWER * moveForce)) * abs(xFactor)));
-			flappyBird->setPositionY(flappyBird->getPositionY() + (((visibleSize.height * MOVE_POWER / 2) - (MOVE_POWER * moveForce))* abs(yFactor)));
-		}
-		
-	}
+		flappyBird->getPhysicsBody()->applyForce(Vec2(0, -10));
+	
+	
 }
 
 void Bird::Fly(cocos2d::Touch *touch) {
@@ -72,13 +41,47 @@ void Bird::Fly(cocos2d::Touch *touch) {
 	willLocationX = flappyBird->getPositionX();
 	willLocationY = flappyBird->getPositionY();
 
-	if (abs(touchLocationX - willLocationX) < visibleSize.width / 4 && abs(touchLocationY - willLocationY) < visibleSize.height / 4){
+	float moveX = abs(touchLocationX - willLocationX);
+	float moveY = abs(touchLocationY - willLocationY);
 
-		isFalling = false; 
+	float moveForce = sqrt(pow(moveX, 2) + pow(moveY, 2));
 
+	float deltaX = touchLocationX - willLocationX;
+	float deltaY = touchLocationY - willLocationY;
+	float delta = deltaX / deltaY;
+
+	float alpha = atan(delta) * (180 / M_PI);
+
+	if (deltaY > 0){
+		alpha += 180;
 	}
 
+	float xFactor = cosf(alpha);
+	float yFactor = sinf(alpha);
 	
+	if (touchLocationX - willLocationX > 0){
+		if (touchLocationY - willLocationY > 0){
+			Vec2 force = Vec2(-1000 * abs(xFactor), -1000 * abs(yFactor));
+			flappyBird->getPhysicsBody()->applyForce(force);
+		}
+		else{
+			Vec2 force = Vec2(-1000 * abs(xFactor), 1000 * abs(yFactor));
+			flappyBird->getPhysicsBody()->applyForce(force);
+		}
+	}
+	else{
+		if (touchLocationY - willLocationY > 0){
+			Vec2 force = Vec2(1000 * abs(xFactor), -1000 * abs(yFactor));
+			flappyBird->getPhysicsBody()->applyForce(force);
+
+		}
+		else{
+			Vec2 force = Vec2(1000 * abs(xFactor), 1000 * abs(yFactor));
+			flappyBird->getPhysicsBody()->applyForce(force);
+		}
+	}
+	
+		
 
 }
 

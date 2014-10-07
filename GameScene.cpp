@@ -8,7 +8,7 @@ Scene* GameScene::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	scene->getPhysicsWorld()->setGravity(Vect(0, 0));
+	scene->getPhysicsWorld()->setGravity(Vect(0, -100.0f));
 
     // 'layer' is an autorelease object
 	auto layer = GameScene::create();
@@ -107,7 +107,6 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 
 
 	bird->Fly(touch);
-	this->scheduleOnce(schedule_selector(GameScene::StopFlying), BIRD_FLY_DURATION);
 
 	float xPos = touch->getLocation().x;
 	float yPos = touch->getLocation().y;
@@ -142,14 +141,9 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 	auto expand = ScaleBy::create(1, 2.5);
 	wind->runAction(expand);
 
-	//this->removeChild(wind);
 	return true;
 }
 
-void GameScene::StopFlying(float dt){
-	bird->StopFlying();
-
-}
 
 void GameScene::update(float dt){
 	bird->Fall();
