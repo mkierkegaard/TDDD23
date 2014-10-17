@@ -14,7 +14,8 @@ Bird::Bird(cocos2d::Layer *layer){
 	willLocationX = flappyBird->getPositionX();
 	willLocationY = flappyBird->getPositionY();
 
-	auto flappyBody = PhysicsBody::createBox(Size(flappyBird->getContentSize().width, flappyBird->getContentSize().height) , PhysicsMaterial(0, 1, 0));
+	auto flappyBody = PhysicsBody::createBox(Size(flappyBird->getContentSize().width, flappyBird->getContentSize().height), PhysicsMaterial(0, 1, 0));
+	flappyBody->setGravityEnable(false);
 	flappyBird->setPhysicsBody(flappyBody);
 
 	layer -> addChild(flappyBird, 100);
@@ -23,14 +24,14 @@ Bird::Bird(cocos2d::Layer *layer){
 	flappyBody->setContactTestBitmask(true);
 	flappyBody->setMass(1);
 
-	isFalling = true;
+	//isFalling = true;
 
-	flappyBird->getPhysicsBody()->setVelocityLimit(200);
-
+	flappyBird->getPhysicsBody()->setVelocityLimit(300);
+	
 }
 
 void Bird::Fall(){
-		flappyBird->getPhysicsBody()->applyForce(Vec2(0, -10));
+		flappyBird->getPhysicsBody()->applyForce(Vec2(0, -30));
 	
 	
 }
@@ -61,22 +62,22 @@ void Bird::Fly(cocos2d::Touch *touch) {
 	
 	if (touchLocationX - willLocationX > 0){
 		if (touchLocationY - willLocationY > 0){
-			Vec2 force = Vec2(-1000 * abs(xFactor), -1000 * abs(yFactor));
+			Vec2 force = Vec2(-1500 * abs(xFactor), -1500 * abs(yFactor));
 			flappyBird->getPhysicsBody()->applyForce(force);
 		}
 		else{
-			Vec2 force = Vec2(-1000 * abs(xFactor), 1000 * abs(yFactor));
+			Vec2 force = Vec2(-1500 * abs(xFactor), 1500 * abs(yFactor));
 			flappyBird->getPhysicsBody()->applyForce(force);
 		}
 	}
 	else{
 		if (touchLocationY - willLocationY > 0){
-			Vec2 force = Vec2(1000 * abs(xFactor), -1000 * abs(yFactor));
+			Vec2 force = Vec2(1500 * abs(xFactor), -1500 * abs(yFactor));
 			flappyBird->getPhysicsBody()->applyForce(force);
 
 		}
 		else{
-			Vec2 force = Vec2(1000 * abs(xFactor), 1000 * abs(yFactor));
+			Vec2 force = Vec2(1500 * abs(xFactor), 1500 * abs(yFactor));
 			flappyBird->getPhysicsBody()->applyForce(force);
 		}
 	}

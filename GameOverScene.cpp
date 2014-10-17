@@ -40,10 +40,10 @@ bool GameOverScene::init()
 
 	
 
-	auto retryItem = MenuItemImage::create("Retry.png","Retry.png" , CC_CALLBACK_1(GameOverScene::GoToGameScene, this));
+	auto retryItem = MenuItemImage::create("Retry.png","Retry_Selected.png" , CC_CALLBACK_1(GameOverScene::GoToGameScene, this));
 	retryItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-	auto menuItem = MenuItemImage::create("Menu.png", "Menu.png" , CC_CALLBACK_1(GameOverScene::GoToMainMenuScene, this));
+	auto menuItem = MenuItemImage::create("Menu.png", "Menu_Selected.png" , CC_CALLBACK_1(GameOverScene::GoToMainMenuScene, this));
 	menuItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 4  + origin.y));
 
 	auto menu = Menu::create(retryItem, menuItem, NULL);
@@ -51,12 +51,31 @@ bool GameOverScene::init()
 
 	this->addChild(menu);
 
-	__String *tempScore = __String::createWithFormat("%i", score);
+	UserDefault *def = UserDefault::getInstance();
+
+	auto highscore = def->getIntegerForKey("HIGHSCORE", 0);
+
+	if (score > highscore){
+
+		highscore = score;
+		def->setIntegerForKey("HIGHSCORE", highscore);
+	}
+
+	def->flush();
+
+	__String *tempScore = __String::createWithFormat("Score: %i", score);
 	auto currentScore = Label::create(tempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
-	currentScore->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 4 * 3 + origin.y));
+	currentScore->setPosition(Point(visibleSize.width * 0.25 + origin.x, visibleSize.height / 4 * 3 + origin.y));
 	currentScore->setColor(Color3B::BLACK);
 	
 	this->addChild(currentScore);
+
+	__String *tempHighScore = __String::createWithFormat("Highscore: %i", highscore);
+	auto highScoreLabel = Label::create(tempHighScore->getCString(), "Arial", visibleSize.height *SCORE_FONT_SIZE);
+	highScoreLabel->setPosition(Point(visibleSize.width * 0.75 + origin.x, visibleSize.height / 4 * 3 + origin.y));
+	highScoreLabel->setColor(Color3B::BLACK);
+
+	this->addChild(highScoreLabel);
 
     return true;
 }

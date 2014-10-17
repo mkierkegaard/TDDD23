@@ -8,16 +8,13 @@ Scene* GameScene::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	scene->getPhysicsWorld()->setGravity(Vect(0, -100.0f));
-
+	
     // 'layer' is an autorelease object
 	auto layer = GameScene::create();
 	layer->SetPhysicsWorld(scene->getPhysicsWorld());
 
     // add layer as a child to scene
     scene->addChild(layer);
-
-
 	
     // return the scene
     return scene;
@@ -37,7 +34,7 @@ bool GameScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	
+	gameStarted = false;
 
 	auto edgeBody = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	edgeBody->setCollisionBitmask(OBSTACLE_COLLISION_MASK);
@@ -49,9 +46,9 @@ bool GameScene::init()
 
 	this->addChild(edgeNode);
     
-	this->schedule(schedule_selector(GameScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * visibleSize.width);
+	
 	bird = new Bird(this);
-
+	
 	instruction = Sprite::create("Instruction.png");
 	instruction->setPosition(Point(visibleSize.width / 2 + origin.x + 100, visibleSize.height / 2 + origin.y - 120));
 	this->addChild(instruction);
@@ -66,14 +63,13 @@ bool GameScene::init()
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	scorePoints = 0;
-	this->schedule(schedule_selector(GameScene::addPoint), 1 );
+	
 	__String *currTempScore = __String::createWithFormat("%i", scorePoints);
 	scoreLabel = Label::create(currTempScore->getCString(), "Arial", visibleSize.height * SCORE_FONT_SIZE);
 	scoreLabel->setColor(Color3B::BLACK);
 	scoreLabel->setPosition(Point(visibleSize.width * 0.9  + origin.x, visibleSize.height * 0.9 + origin.y));
 	this->addChild(scoreLabel, 10000);
 
-	this->scheduleUpdate();
     return true;
 }
 
@@ -102,10 +98,23 @@ bool GameScene::onContactBegin(cocos2d::PhysicsContact &contact){
 	
 }
 
+void GameScene::startGame(){
+	this->schedule(schedule_selector(GameScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * Director::getInstance()->getVisibleSize().width);
+	this->schedule(schedule_selector(GameScene::addPoint), 1);
+	this->scheduleUpdate();
+
+	auto fadeAction = FadeOut::create(2);
+
+	instruction->runAction(fadeAction);
+	gameStarted = true;
+}
+
 bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 
-
-
+	if (gameStarted == false){
+		startGame();
+	}
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("swosh.wav");
 	bird->Fly(touch);
 
 	float xPos = touch->getLocation().x;
@@ -146,9 +155,12 @@ bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 
 
 void GameScene::update(float dt){
+
 	bird->Fall();
 	__String *tempScore = __String::createWithFormat("%i", scorePoints);
 	scoreLabel->setString(tempScore->getCString());
+
+	
 }
 
 

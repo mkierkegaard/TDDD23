@@ -30,24 +30,35 @@ bool MainMenuScene::init()
     }
 
 	this->setColor(ccc3(255, 255, 255));
+
+	if (!CocosDenshion::SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying()){
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Around the Fireplace_3.mp3", true);
+	}
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	this->schedule(schedule_selector(MainMenuScene::SpawnPipe), PIPE_SPAWN_FREQUENCY * Director::getInstance()->getVisibleSize().width);
 
-	auto titleSprite = Sprite::create("CloseSelected.png");
-	titleSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height - titleSprite->getContentSize().height));
+	auto titleSprite = Sprite::create("Menu_Header.png");
+	titleSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + titleSprite->getContentSize().height));
 
-	this->addChild(titleSprite);
+	this->addChild(titleSprite, 1000);
 
-	auto playItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
+	auto playItem = MenuItemImage::create("play.png", "play_selected.png", CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
 	playItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
 	auto menu = Menu::create(playItem, NULL);
 
 	menu->setPosition(Point::ZERO);
 
-	this->addChild(menu);
+	this->addChild(menu, 1000);
+
+	__String *name = __String::createWithFormat("Martin Kierkegaard 2014");
+	nameLabel = Label::create(name->getCString(), "Arial", visibleSize.height * NAME_FONT_SIZE);
+	nameLabel->setColor(Color3B::BLACK);
+	nameLabel->setPosition(Point(visibleSize.width * 0.9 + origin.x, +origin.y + NAME_FONT_SIZE + visibleSize.height * NAME_FONT_SIZE));
+	this->addChild(nameLabel, 10000);
 
     return true;
 }
@@ -56,5 +67,10 @@ void MainMenuScene::GoToGameScene(cocos2d::Ref *sender){
 	auto scene = GameScene::createScene();
 
 	Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+
+}
+
+void MainMenuScene::SpawnPipe(float dt){
+	pipe.SpawnPipe(this);
 
 }

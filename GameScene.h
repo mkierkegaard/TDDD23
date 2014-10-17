@@ -5,7 +5,7 @@
 #include "Pipe.h"
 #include "Bird.h"
 #include "Score.h"
-
+#include "SimpleAudioEngine.h"
 
 class GameScene : public cocos2d::LayerColor
 {
@@ -25,11 +25,12 @@ private:
 
 	void SpawnPipe(float dt);
 	void SpawnScore(float dt);
+	void startGame();
 
 	cocos2d::Sprite *instruction;
 
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
-
+	bool gameStarted;
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
 
 	void StopFlying(float dt);

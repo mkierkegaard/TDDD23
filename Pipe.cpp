@@ -11,7 +11,7 @@ Pipe::Pipe(){
 void Pipe::SpawnPipe(cocos2d::Layer *layer){
 	CCLOG("SPAWN PIPE");
 
-	auto topPipe = Sprite::create("ball.png");
+	auto topPipe = Sprite::create("monster.png");
 
 	auto topPipeBody = PhysicsBody::createBox(topPipe->getContentSize());
 

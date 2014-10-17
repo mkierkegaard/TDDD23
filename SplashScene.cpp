@@ -31,12 +31,13 @@ bool SplashScene::init()
 
 	this->setColor(ccc3(255, 255, 255));
     
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	this->scheduleOnce(schedule_selector(SplashScene::GoToMainMenuScene), DISPLAY_TIME_SPASH_SCENE);
 
-	auto backgroundSprite = Sprite::create("HelloWorld.png");
+	auto backgroundSprite = Sprite::create("Splash.png");
 	backgroundSprite -> setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     
 	this->addChild(backgroundSprite);

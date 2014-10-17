@@ -2,6 +2,7 @@
 #define __MAIN_MENU_SCENE_SCENE_H__
 
 #include "cocos2d.h"
+#include "Pipe.h"
 
 class MainMenuScene : public cocos2d::LayerColor
 {
@@ -17,6 +18,10 @@ public:
 
 private:
 	void GoToGameScene(cocos2d::Ref *sender);
+	void SpawnPipe(float dt);
+	Pipe pipe;
+	cocos2d::Label *nameLabel;
+
 };
 
 #endif // __MAIN_MENU_SCENE_SCENE_H__
